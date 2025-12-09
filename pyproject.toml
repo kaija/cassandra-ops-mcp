@@ -1,0 +1,32 @@
+[project]
+name = "cassandra-mcp-server"
+version = "0.1.0"
+description = "MCP Server for Apache Cassandra cluster diagnostics and maintenance"
+requires-python = ">=3.9"
+dependencies = [
+    "mcp>=0.9.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "hypothesis>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "hypothesis>=6.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.hypothesis]
+max_examples = 100

@@ -1,0 +1,58 @@
+# Docker Compose configuration for Cassandra MCP Server
+services:
+  cassandra-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cassandra-mcp-server
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    
+    # Volume mounts
+    volumes:
+      # Mount configuration file
+      - ./config/config.yaml:/app/config/config.yaml:ro
+      # Mount logs directory
+      - ./logs:/app/logs
+      # Optional: Mount Cassandra bin directory if running locally
+      # - /path/to/cassandra/bin:/opt/cassandra/bin:ro
+    
+    # Network configuration
+    # Use stdin/stdout for MCP protocol communication
+    stdin_open: true
+    tty: true
+    
+    # Resource limits (adjust as needed)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+# Optional: Network configuration
+networks:
+  default:
+    name: cassandra-mcp-network
+    driver: bridge

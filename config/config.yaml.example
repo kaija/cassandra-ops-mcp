@@ -1,0 +1,21 @@
+# Cassandra MCP Server Configuration Example
+# Copy this file to config.yaml and adjust settings as needed
+
+# Java installation path
+java_home: /opt/jdk/
+
+# Cassandra bin directory path
+cassandra_bin_path: /usr/local/cassandra/bin
+
+# API keys for authentication (list of valid keys)
+api_keys:
+  - your-api-key-here
+  - another-api-key
+
+# Logging configuration
+log_level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_file: logs/cassandra-mcp.log
+max_log_size: 10485760  # 10MB in bytes
+
+# Health check interval in seconds
+health_check_interval: 30
